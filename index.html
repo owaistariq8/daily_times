@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Daily Times</title>
+        <script>window.$ = window.jQuery = require('./node_modules/jquery/dist/jquery.min.js');</script>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css" >
+        <link rel="stylesheet" href="./login.css" >
+        <script src="./functions.js"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="loading-holder hidden">
+            <img src="images/5.gif" alt="">
+        </div>
+        <div class="alert  alert_messages hidden" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <div id="message">
+                <strong>Warning!</strong> Better check yourself, you're not looking too good.
+            </div>
+        </div>
+        <div class="login-page">
+            <div class="form">
+                <form id="login-form" class="login-form">
+                    <input type="text" name="username" placeholder="username"/>
+                    <input type="password" name="password" placeholder="password"/>
+                    <button class="login-btn">login</button>
+                </form>
+            </div>
+        </div>
+    </body>
+
+    <script>
+        // You can also require other files to run in this process
+        require('./renderer.js')
+        $(document).ready(function(){
+            $(document).on("click",'.login-btn',function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: 'http://localhost/daily_times/ajax.php',
+                    type: "POST",
+                    data : $('#login-form').serialize()+"&mode=login_user" ,
+                    dataType: "JSON",
+                    beforeSend: function () {
+                        $("#login-btn").html("Please wait");
+                        $('.loading-holder').removeClass("hidden");
+                        $("#login-btn").attr('disabled',true);
+                    },
+                    success:function (data) 
+                    {
+                        $("#login-btn").html("Login");
+                        $("#login-btn").attr('disabled',false);
+                        if(data)
+                        {
+                            if(data.success)
+                            {
+                                show_ajax_messages(data.message,'success')
+                                window.location.href = './home.html';
+                            }
+                            else
+                            {
+                                show_ajax_messages(data.message,'error')
+                            }
+                        }
+                        else
+                        {
+                            show_ajax_messages("Something Went Wrong. Please Contact your administrator",'error')
+                        }
+                    },
+                    error:function(data)
+                    {
+                        show_ajax_messages("Something Went Wrong. Please Contact your administrator",'error');
+                    },
+                    complete:function (data) 
+                    {
+                        $("#login-btn").attr('disabled',false);
+                        $('.loading-holder').addClass("hidden");
+                    } 
+
+                });
+            });
+        });
+    </script>
+</html>

@@ -1,0 +1,1152 @@
+<script type="text/javascript">
+    var remote = require('electron').remote;
+    document.addEventListener("keydown", function (e) {
+        if (e.which === 123) {
+            remote.getCurrentWindow().toggleDevTools();
+        } else if (e.which === 116) {
+            location.reload();
+        }
+    });
+    $(document).ready(function(){
+        $(document).on("click",'#add_cli_btn',function(e){
+            e.preventDefault();
+            var _this = $(this),
+            cid = '';
+            if(_this.hasClass('edit_client'))
+            {
+                cid = _this.data("id");
+            }
+            $.ajax({
+                url: 'http://localhost/daily_times/ajax.php',
+                type: "POST",
+                data : $('#add_cli_form').serialize()+"&mode=add_client&cid="+cid ,
+                dataType: "JSON",
+                beforeSend: function () {
+                    $("#add_cli_btn").html("Please wait");
+                    $("#add_cli_btn").attr('disabled',true);
+                    $('.loading-holder').removeClass("hidden");
+                },
+                success:function (data) 
+                {
+                    if(cid)
+                    {
+                        var btn_name = "Edit Client";
+                    }
+                    else
+                    {
+                        var btn_name = "Add Client";
+                    }
+                    $("#add_cli_btn").html(btn_name);
+                    $("#add_cli_btn").attr('disabled',false);
+                    if(data)
+                    {
+                        if(data.success)
+                        {
+                            if(data.cid)
+                            {
+                                if(cid)
+                                {
+                                    data.cid = cid
+                                }
+                                data.name = $("#cname").val(),
+                                data.type = $("#type").val(),
+                                data.city = $("#city").val(),
+                                data.phone = $("#phone").val(),
+                                data.comm = $("#comm").val(),
+                                data.fax = $("#fax").val(),
+                                data.cust_id = $("#cust_id").val(),
+                                data.contact = $("#contact").val(),
+                                data.address = $("#address").val(),
+                               
+                                html_new_record = "<tr id='"+data.cid+"'>";
+                                if(cid)
+                                {
+                                    html_new_record = '';
+                                }
+                                html_new_record+= client_td(data,html_new_record);
+                                if(cid)
+                                {
+                                    $("#"+cid).html(html_new_record);
+                                }
+                                else
+                                {
+                                    html_new_record+= "</tr>"
+                                    $(".client-records").parent('.panel-box').removeClass('hidden');
+                                    $(".client-records").removeClass('hidden').find('tbody').prepend(html_new_record);
+                                    $(".cli-input").val('');
+                                }
+                                show_ajax_messages(data.message,'success')
+                            }
+                            $('[data-toggle="popover"]').popover();
+                            // console.log(data)
+                            // window.location.href = './home.html';
+                        }
+                        else
+                        {
+                            show_ajax_messages(data.message,'error')
+                        }
+                    }
+                    else
+                    {
+                        show_ajax_messages("Something went wrong",'error')
+                    }
+                },
+                error:function(data)
+                {
+                    $("#add_cli_btn").attr('disabled',false);
+                },
+                complete:function (data) 
+                {
+                    $('.loading-holder').addClass("hidden");
+                } 
+
+            });
+        });
+        $(document).on("click",'#add_cli_',function(e){
+            $(".cli-input").val('');
+            $(this).addClass("hidden");
+            $("#add_cli_btn").html("Add Client").removeClass("edit_client");
+            $("#add_cli_form").removeClass('hidden');
+            $(".form-panel").removeClass('hidden');
+            $(".btn-panel").addClass('hidden');
+        });
+        $(document).on("click",'.edit-client',function(e){
+            var _this = $(this),
+            cid = _this.data('id'),
+            valid_arr = ['qw','cust_id','cname','type','city','phone','fax','contact','address']
+            $( "#"+cid+" td" ).each(function( index ) {
+                if(index>=1)
+                {
+                    $("#"+valid_arr[index]).val($( this ).html())
+                    // // console.log( index + ": " + $( this ).html() );
+                }
+            });
+            $('#add_cli_').removeClass("hidden");
+            $("#add_cli_form").removeClass('hidden');
+            $(".form-panel").removeClass('hidden');
+            $("#add_cli_btn").html("Edit Client").addClass("edit_client").data('id',cid);
+        });
+
+        $(document).on("click",'#add_cust_',function(e){
+            $(".cust-input").val('');
+            $("#add_cust_btn").html("Add Customer").removeClass("edit_customer");
+            $(this).addClass("hidden");
+            $("#add_cust_form").removeClass('hidden');
+            $(".btn-panel").addClass('hidden');
+            $(".form-panel").removeClass('hidden');
+        });
+        $(document).on("click",'#add_cust_btn',function(e){
+            e.preventDefault();
+            var _this = $(this),
+            cid = '';
+            if(_this.hasClass('edit_customer'))
+            {
+                cid = _this.data("id");
+            }
+            $.ajax({
+                url: 'http://localhost/daily_times/ajax.php',
+                type: "POST",
+                data : $('#add_cust_form').serialize()+"&mode=add_customer&cid="+cid ,
+                dataType: "JSON",
+                beforeSend: function () {
+                    $("#add_cust_btn").html("Please wait");
+                    $("#add_cust_btn").attr('disabled',true);
+                    $('.loading-holder').removeClass("hidden");
+                },
+                success:function (data) 
+                {
+                    if(cid)
+                    {
+                        var btn_name = "Edit Customer";
+                    }
+                    else
+                    {
+                        var btn_name = "Add Customer";
+                    }
+                    $("#add_cust_btn").html(btn_name);
+                    $("#add_cust_btn").attr('disabled',false);
+                    if(data)
+                    {
+                        if(data.success)
+                        {
+                            if(data.cid)
+                            {
+                                if(cid)
+                                {
+                                    data.cid = cid
+                                }
+                                data.name = $("#cname").val(),
+                                data.type = $("#type").val(),
+                                data.city = $("#city").val(),
+                                data.phone = $("#phone").val(),
+                                data.comm = $("#comm").val(),
+                                data.fax = $("#fax").val(),
+                                data.address = $("#address").val(),
+                                data.credit_days = $("#cdays").val(),
+                                data.NTN = $("#ntn").val(),
+                                data.contact = $("#ntn").val(),
+                                html_new_record = "<tr id='"+data.cid+"'>";
+                                if(cid)
+                                {
+                                    html_new_record = '';
+                                }
+                                html_new_record+= customer_td(data,html_new_record);
+                                if(cid)
+                                {
+                                    $("#"+cid).html(html_new_record);
+                                }
+                                else
+                                {
+                                    html_new_record+= "</tr>"
+                                    $(".customer-records").parent('.panel-box').removeClass('hidden');
+                                    $(".customer-records").removeClass('hidden').find('tbody').prepend(html_new_record);
+                                    $(".cust-input").val('');
+                                }
+                                show_ajax_messages(data.message,'success');
+                            }
+                            $('[data-toggle="popover"]').popover();
+                            // console.log(data)
+                            // window.location.href = './home.html';
+                        }
+                        else
+                        {
+                            show_ajax_messages(data.message,'error');
+                        }
+                    }
+                    else
+                    {
+                        show_ajax_messages("Something Went Wrong. Please Contact your administrator",'error')
+                    }
+                },
+                error:function(data)
+                {
+                    $("#add_cust_btn").attr('disabled',false);
+                    show_ajax_messages("Something Went Wrong. Please Contact your administrator",'error')
+                },
+                complete:function (data) 
+                {
+                    $('.loading-holder').addClass("hidden");
+                } 
+            });
+        });
+       
+        $(document).on("click",'.edit',function(e){
+            var _this = $(this),
+            cid = _this.data('id'),
+            valid_arr = ['cust_id','cname','type','city','phone','comm','fax','cdays','contact','address','ntn']
+            // console.log(cid);
+            $( "#"+cid+" td" ).each(function( index ) {
+                if(index>=1)
+                {
+                    $("#"+valid_arr[index]).val($( this ).html())
+                    // console.log( index + ": " + $( this ).html() );
+                }
+            });
+            $('#add_cust_').removeClass("hidden");
+            $("#add_cust_form").removeClass('hidden');
+            $(".form-panel").removeClass('hidden');
+            $("#add_cust_btn").html("Edit Customer").addClass("edit_customer").data('id',cid);
+        });
+        $(document).on("click",'.delete',function(e){
+            delete_record($(this));
+        });
+    
+        $(document).on("click",'.load-more',function(e){
+            var _this = $(this),
+            identify = _this.data('identify'),
+            page = _this.data('page'),
+            limit = _this.data('limit');
+            if(identify=='customer')
+            {
+                getCustomers(limit,page);
+            }
+            else if (identify=='client') 
+            {
+                getClients(limit,page); 
+            }
+            else if(identify=='bills')
+            {
+                getBills(limit,page);
+            }
+            else if(identify=='ctypes')
+            {
+                getTypes(limit,page);
+            }
+            else if(identify=='rates')
+            {
+                getRates(limit,page);
+            }
+            else if(identify=='clearing_section')
+            {
+                getClearingSection(limit,page);
+            }
+            _this.data('page',(page+1))
+        });
+
+        $(document).on("click",'#add_type_btn',function(e){
+            e.preventDefault();
+            var _this = $(this),
+            id = '';
+            if(_this.hasClass('edit_type'))
+            {
+                id = _this.data("id");
+            }
+            $.ajax({
+                url: 'http://localhost/daily_times/ajax.php',
+                type: "POST",
+                data : $('#add_type_form').serialize()+"&mode=add_type&id="+id ,
+                dataType: "JSON",
+                beforeSend: function () {
+                    $("#add_type_btn").html("Please wait");
+                    $("#add_type_btn").attr('disabled',true);
+                    $('.loading-holder').removeClass("hidden");
+                },
+                success:function (data) 
+                {
+                    if(id)
+                    {
+                        var btn_name = "Edit Type";
+                    }
+                    else
+                    {
+                        var btn_name = "Add Type";
+                    }
+                    $("#add_type_btn").html(btn_name);
+                    $("#add_type_btn").attr('disabled',false);
+                    if(data)
+                    {
+                        if(data.success)
+                        {
+                            if(data.id)
+                            {
+                                if(id)
+                                {
+                                    data.id = id
+                                }
+                                var type = $("#type").val(),
+                                cdays = $("#cdays").val(),
+                                description = $("#description").val(),
+                                html_new_record = "<tr id='"+data.id+"'>";
+                                if(id)
+                                {
+                                    html_new_record = '';
+                                }
+                                html_new_record+= type_td(data,html_new_record)
+                                
+                                
+                                if(id)
+                                {
+                                    $("#"+id).html(html_new_record);
+                                }
+                                else
+                                {
+                                    html_new_record+= "</tr>"
+                                    $(".type-records").parent('.panel-box').removeClass('hidden');
+                                    $(".type-records").removeClass('hidden').find('tbody').prepend(html_new_record);
+                                    $(".type-input").val('');
+                                }
+                            }
+                            $('[data-toggle="popover"]').popover();
+                            // console.log(data)
+                            // window.location.href = './home.html';
+                        }
+                    }
+                },
+                error:function(data)
+                {
+                    $("#add_type_btn").attr('disabled',false);
+                },
+                complete:function (data) 
+                {
+                    $('.loading-holder').addClass("hidden");
+                } 
+
+            });
+        });
+        $(document).on("click",'#add_type_',function(e){
+            $(".type-input").val('');
+            $("#add_type_btn").html("Add Type").removeClass("edit_type");
+            $(this).addClass("hidden");
+            $("#add_type_form").removeClass('hidden');
+            $(".btn-panel").addClass('hidden');
+            $(".form-panel").removeClass('hidden');
+        });
+        $(document).on("click",'.edit-type',function(e){
+            var _this = $(this),
+            id = _this.data('id'),
+            valid_arr = ['cust_id','type','description','cdays']
+            // // console.log(id);
+            $( "#"+id+" td" ).each(function( index ) {
+                if(index>=1)
+                {
+                    $("#"+valid_arr[index]).val($( this ).html())
+                    // console.log( "#"+valid_arr[index] + ": " + $( this ).html() );
+                }
+            });
+            $('#add_type_').removeClass("hidden");
+            $("#add_type_form").removeClass('hidden');
+            $(".form-panel").removeClass('hidden');
+            $("#add_type_btn").html("Edit Type").addClass("edit_type").data('id',id);
+        });
+        
+
+        $(document).on("click",'#submit_basic_configs',function(e){
+            e.preventDefault();
+            var _this = $(this);
+            submitConfigs(_this);
+        });
+
+
+        $(document).on("click",'#add_pre_',function(e){
+            $(".pre-input").val('');
+            $("#submit_clearing_period").html("Add Period").removeClass("edit_period");
+            $(this).addClass("hidden");
+            $("#clearing_period_form").removeClass('hidden');
+            $(".form-panel").removeClass('hidden');
+            $(".btn-panel").addClass('hidden');
+        });
+        $(document).on("click",'#submit_clearing_period',function(e){
+            e.preventDefault();
+            var _this = $(this),
+            id = '';
+            if(_this.hasClass('edit_period'))
+            {
+                id = _this.data("id");
+            }
+            $.ajax({
+                url: 'http://localhost/daily_times/ajax.php',
+                type: "POST",
+                data : $('#clearing_period_form').serialize()+"&mode=submit_clearing_period&id="+id,
+                dataType: "JSON",
+                beforeSend: function () {
+                    $('.loading-holder').removeClass("hidden");
+                },
+                success:function (data) 
+                {
+                    if(id)
+                    {
+                        var btn_name = "Edit Period";
+                    }
+                    else
+                    {
+                        var btn_name = "Add Period";
+                    }
+                    $("#submit_clearing_period").html(btn_name);
+                    $("#submit_clearing_period").attr('disabled',false);
+                    if(data)
+                    {
+                        if(data.success)
+                        {
+                            if(data.id)
+                            {
+                                if(id)
+                                {
+                                    data.id = id
+                                }
+                                data.pname = $("#pname").val(),
+                                data.from_date = $("#fdate").val(),
+                                data.to_date = $("#tdate").val(),
+                                html_new_record = "<tr id='"+data.id+"'>";
+                                if(id)
+                                {
+                                    html_new_record = '';
+                                }
+                                html_new_record+=clearingPeriodTd(data,html_new_record);
+                                if(id)
+                                {
+                                    $("#"+id).html(html_new_record);
+                                }
+                                else
+                                {
+                                    html_new_record+= "</tr>"
+                                    $(".period-records").parent('.panel-box').removeClass('hidden');
+                                    $(".period-records").removeClass('hidden').find('tbody').prepend(html_new_record);
+                                    $(".pre-input").val('');
+                                }
+                            }
+                            show_ajax_messages(data.message,'success');
+                            // window.location.href = './home.html';
+                        }
+                        else
+                        {
+                            show_ajax_messages(data.message,'error');
+                        }
+                    }
+                    else
+                    {
+                        show_ajax_messages("Something Went Wrong. Please Contact your administrator",'error');
+                    }
+                },
+                error:function(data)
+                {
+                    show_ajax_messages("Something Went Wrong. Please Contact your administrator",'error');
+                },
+                complete:function (data) 
+                {
+                    $('.loading-holder').addClass("hidden");
+                } 
+            }); 
+        });
+
+        $(document).on("click",'.edit-period',function(e){
+            var _this = $(this),
+            id = _this.data('id'),
+            valid_arr = ['id','pname','fdate','tdate']
+            // // console.log(id);
+            $( "#"+id+" td" ).each(function( index ) {
+                if(index>=1)
+                {
+                    $("#"+valid_arr[index]).val($( this ).html())
+                    // console.log( "#"+valid_arr[index] + ": " + $( this ).html() );
+                }
+            });
+            $('#add_pre_').removeClass("hidden");
+            $("#clearing_period_form").removeClass('hidden');
+            $(".form-panel").removeClass('hidden');
+            $("#submit_clearing_period").html("Edit Period").addClass("edit_period").data('id',id);
+        });
+
+        
+
+        $(document).on("click",'#add_rate_',function(e){
+            $(".rate-input").val('');
+            $("#add_rate_btn").html("Add Rate").removeClass("edit_rate");
+            $(this).addClass("hidden");
+            $("#add_rate_form").removeClass('hidden');
+            $(".btn-panel").addClass('hidden');
+            $(".form-panel").removeClass('hidden');
+        });
+
+        $(document).on("click",'#add_rate_btn',function(e){
+            e.preventDefault();
+            var _this = $(this),
+            rid = '';
+            if(_this.hasClass('edit_rate'))
+            {
+                rid = _this.data("id");
+            }
+            $.ajax({
+                url: 'http://localhost/daily_times/ajax.php',
+                type: "POST",
+                data : $('#add_rate_form').serialize()+"&mode=add_rate&rid="+rid ,
+                dataType: "JSON",
+                beforeSend: function () {
+                    $("#add_rate_btn").html("Please wait");
+                    $("#add_rate_btn").attr('disabled',true);
+                    $('.loading-holder').removeClass("hidden");
+                },
+                success:function (data) 
+                {
+                    if(rid)
+                    {
+                        var btn_name = "Edit Rate";
+                    }
+                    else
+                    {
+                        var btn_name = "Add Rate";
+                    }
+                    $("#add_rate_btn").html(btn_name);
+                    $("#add_rate_btn").attr('disabled',false);
+                    if(data)
+                    {
+                        if(data.success)
+                        {
+                            if(data.rid)
+                            {
+                                if(rid)
+                                {
+                                    data.rid = rid
+                                }
+                                data.code = $("#code").val(),
+                                data.kind = $("#kind").val(),
+                                data.detail = $("#detail").val(),
+                                data.rate = $("#rate").val(),
+                                data.position = $("#position").val(),
+                                data.uom = $("#uom").val(),
+                                data.add_pct = $("#add_pct").val(),
+                                data.extra = $("#extra").val(),
+                                data.description = $("#description").val(),
+                                html_new_record = "<tr id='"+data.rid+"'>";
+                                if(rid)
+                                {
+                                    html_new_record = '';
+                                }
+                                html_new_record+=rate_td(data,html_new_record);
+
+                                if(rid)
+                                {
+                                    $("#"+rid).html(html_new_record);
+                                }
+                                else
+                                {
+                                    html_new_record+= "</tr>"
+                                    $(".rate-records").parent('.panel-box').removeClass('hidden');
+                                    $(".rate-records").removeClass('hidden').find('tbody').prepend(html_new_record);
+                                    $(".rate-input").val('');
+                                }
+                            }
+                            $('[data-toggle="popover"]').popover();
+                            // console.log(data)
+                            // window.location.href = './home.html';
+                        }
+                    }
+                },
+                error:function(data)
+                {
+                    $("#add_rate_btn").attr('disabled',false);
+                },
+                complete:function (data) 
+                {
+                    $('.loading-holder').addClass("hidden");
+                } 
+
+            });
+        });
+    
+        $(document).on("click",'.edit-rate',function(e){
+            var _this = $(this),
+            rid = _this.data('id'),
+            valid_arr = ['id','rate','kind','detail','rate','position','uom','add_pct','extra','description'];
+            $( "#"+rid+" td" ).each(function( index ) {
+                if(index>=1)
+                {
+                    $("#"+valid_arr[index]).val($( this ).html())
+                    // // console.log( index + ": " + $( this ).html() );
+                }
+            });
+            $('#add_rate_').removeClass("hidden");
+            $("#add_rate_form").removeClass('hidden');
+            $(".form-panel").removeClass('hidden');
+            $("#add_rate_btn").html("Edit Rate").addClass("edit_rate").data('id',rid);
+        });
+    
+        $(document).on("keyup change",'#size_w',function(e){
+            var _this = $(this),
+            value = parseInt(_this.val()),
+            rate = parseInt($('#rate').val()),
+            other_size = parseInt($("#size_h").val()),
+            amount = 0;
+            if(!other_size)
+            {
+                other_size = 0;
+            }
+            if(!rate)
+            {
+                rate = 0;
+            }
+            if(!value)
+            {
+                value = 0;
+            }
+            amount = rate*value*other_size;
+            $("#amount").val(amount);
+        })
+
+        $(document).on("keyup change",'#size_h',function(e){
+            var _this = $(this),
+            value = parseInt(_this.val()),
+            rate = parseInt($('#rate').val()),
+            other_size = parseInt($("#size_w").val()),
+            amount = 0;
+            if(!other_size)
+            {
+                other_size = 0;
+            }
+            if(!rate)
+            {
+                rate = 0;
+            }
+            if(!value)
+            {
+                value = 0;
+            }
+            amount = rate*value*other_size;
+            $("#amount").val(amount);
+        })
+
+        $(document).on("click",'#add_bill_',function(e){
+            $(".bill-input").val('');
+            $("#add_bill_btn").html("Append Bill").removeClass("edit_bill");
+            $(this).addClass("hidden");
+            $("#add_bill_form").removeClass('hidden');
+            $(".btn-panel").addClass('hidden');
+            $(".form-panel").removeClass('hidden');
+        });
+
+
+        $(document).on("click",'#add_bill_btn',function(e){
+            e.preventDefault();
+            var _this = $(this),
+            tr_html = '<tr>';
+            
+            $('.bill-detail-input').each(function(index,value){
+                var input_this = $(this),
+                value_input = input_this.val(),
+                id = input_this.attr('id');
+                tr_html+="<td class='"+id+"'>"+value_input+"</td>";
+            })
+            tr_html+="</tr>";
+            $(".bill-details").removeClass('hidden').find('tbody').append(tr_html);   
+        });
+
+        $(document).on('click','#calculate-btn',function(e){
+            var amount = 0,
+            comm = parseInt($('#commision').val()),
+            discount = parseInt($('#discount').val()),
+            net_amount = 0;
+            $(".amount").each(function(index,val){
+                var amount_val = parseInt($(this).html());
+                if(!amount_val)
+                {
+                    amount_val = 0;
+                }
+                amount+=amount_val;
+            })
+            if(amount&&amount!=0)
+            {
+                $("#calculate").val(amount)
+            }
+            net_amount = (amount-((amount/100)*discount))+((amount/100)*comm);
+            $("#commision-rs").val((amount/100)*comm)
+            $("#discount-rs").val((amount/100)*discount)
+            $("#net").val(net_amount)
+        })
+        // $(document).on("click",'#save-bill-data',function(e){
+        //     e.preventDefault();
+        //     var _this = $(this),
+        //     bid = '';
+        //     if(_this.hasClass('edit_bill'))
+        //     {
+        //         bid = _this.data("id");
+        //     }
+        //     $.ajax({
+        //         url: 'http://localhost/daily_times/ajax.php',
+        //         type: "POST",
+        //         data : $('#add_bill_form').serialize()+"&mode=add_bill&bid="+bid ,
+        //         dataType: "JSON",
+        //         beforeSend: function () {
+        //             $("#add_bill_btn").html("Please wait");
+        //             $("#add_bill_btn").attr('disabled',true);
+        //             $('.loading-holder').removeClass("hidden");
+        //         },
+        //         success:function (data) 
+        //         {
+        //             if(bid)
+        //             {
+        //                 var btn_name = "Edit Bill";
+        //             }
+        //             else
+        //             {
+        //                 var btn_name = "Add Bill";
+        //             }
+        //             $("#add_bill_btn").html(btn_name);
+        //             $("#add_bill_btn").attr('disabled',false);
+        //             if(data)
+        //             {
+        //                 if(data.success)
+        //                 {
+        //                     if(data.bid)
+        //                     {
+        //                         if(bid)
+        //                         {
+        //                             data.bid = bid
+        //                         }
+        //                         var bdate = $("#bdate").val(),
+        //                         type = $("#type").val(),
+        //                         cuid = $("#cuid").val(),
+        //                         cuname = $("#cuname").val(),
+        //                         clid = $("#clid").val(),
+        //                         clname = $("#clname").val(),
+        //                         site = $("#site").val(),
+        //                         period = $("#period").val(),
+        //                         caption = $("#caption").val(),
+        //                         tool_tip_html_cust = '<a href="javascript:void(0);" class="btn btn-xs btn-info" data-toggle="popover" title="Customer Information" data-content="ID:'+cuid+', Name:'+cuname+'">Customer Info</a>',
+        //                         tool_tip_html_cli = '<a href="javascript:void(0);" class="btn btn-xs btn-info" data-toggle="popover" title="Client Information" data-content="ID:'+clid+', Name:'+clname+'">Client Info</a>';
+        //                         html_new_record = "<tr id='"+data.bid+"'>";
+        //                         if(bid)
+        //                         {
+        //                             html_new_record = '';
+        //                         }
+        //                         html_new_record = html_new_record+"<td>"+data.bid+"</td><td>"+bdate+"</td><td>"+type+"</td><td>"+tool_tip_html_cust+"</td><td>"+tool_tip_html_cli+"</td><td>"+site+"</td><td>"+period+"</td><td>"+caption+"</td><td><div class='dropdown'><button class='btn btn-primary dropdown-toggle' type='button' data-toggle='dropdown'>Actions<span class='caret'></span></button><ul class='dropdown-menu'><li><a href='javascript:void(0);' class='edit-bill' data-id='"+data.bid+"'>Edit</a></li><li><a href='javascript:void(0);' class='delete-bill' data-id='"+data.bid+"'>Delete</a></ul></div></td>";
+        //                         if(bid)
+        //                         {
+        //                             $("#"+bid).html(html_new_record);
+        //                         }
+        //                         else
+        //                         {
+        //                             html_new_record+= "</tr>"
+        //                             $(".bill-records").parent('.panel-box').removeClass('hidden');
+        //                             $(".bill-records").removeClass('hidden').find('tbody').prepend(html_new_record);
+        //                             $(".bill-input").val('');
+        //                         }
+        //                     }
+        //                     $('[data-toggle="popover"]').popover();
+        //                     // console.log(data)
+        //                     // window.location.href = './home.html';
+        //                 }
+        //             }
+        //         },
+        //         error:function(data)
+        //         {
+        //             $("#add_rate_btn").attr('disabled',false);
+        //         },
+        //         complete:function (data) 
+        //         {
+        //             $('.loading-holder').addClass("hidden");
+        //         } 
+
+        //     });
+        // });
+        
+        $(document).on('click','.search-li',function(e){
+
+            e.preventDefault();
+            var _this = $(this),
+            search_input = $('.query-input'),
+            id = _this.data('id'),
+            suggestions_box = $('.suggestions-box');
+            search_input.val(id);
+            suggestions_box.addClass('hidden')
+        })
+        
+
+
+        $(document).on("keyup",".query-input",function(e){
+            e.preventDefault();
+            var _this = $(this),
+            query = _this.val(),
+            mode = _this.data('id');
+            html_new = '';
+            if(query)
+            {
+                $.ajax({
+                    url: 'http://localhost/daily_times/ajax.php',
+                    type: "POST",
+                    data : { "mode" : mode , 'query' : query } ,
+                    dataType: "JSON",
+                    beforeSend: function () {
+                        
+                        
+                    },
+                    success:function (data) 
+                    {
+                        if(data)
+                        {
+                            if(data.results)
+                            {
+                                $.each(data.results,function( index,value ) {
+                                    if(value.cid)
+                                    {
+                                        value.id = value.cid
+                                    }
+                                    if(value.rid)
+                                    {
+                                        value.id = value.rid
+                                    }
+                                    if(!value.name)
+                                    {
+                                        value.name = value.code
+                                    }
+                                    if(!value.name)
+                                    {
+                                        value.name = value.type
+                                    }
+                                    html_new+= "<li class='search-li' data-id='"+value.id+"'>"+value.name+"</li>"
+                                });
+                                
+                                $('.suggestions-box').removeClass("hidden").find('ul').html(html_new);
+                            }
+                        }
+                    },
+                    error:function(data)
+                    {
+                        
+                    },
+                    complete:function (data) 
+                    {
+                        _this.attr('disabled',false);
+                        $('.loading-holder').addClass("hidden");
+                    } 
+                });
+            }
+
+        });
+
+        $(document).on("click",".search-btn",function(e){
+            e.preventDefault();
+            var _this = $(this),
+            mode = _this.data('id'),
+            query = $(".query-input").val(),
+            html_new_record = '';
+            if(query)
+            {
+                $.ajax({
+                    url: 'http://localhost/daily_times/ajax.php',
+                    type: "POST",
+                    data : { "mode" : mode , 'query' : query } ,
+                    dataType: "JSON",
+                    beforeSend: function () {
+                        _this.attr('disabled',true);
+                        $('.loading-holder').removeClass("hidden");
+                    },
+                    success:function (data) 
+                    {
+                        if(data)
+                        {
+                            if(data.success)
+                            {
+                                if(data.results)
+                                {
+                                    $.each(data.results,function(index,value){
+                                        if(mode=='search_customer')
+                                        {
+                                            html_new_record+="<tr id='"+value.cid+"'>"+customer_td(value,'')+"</tr>";
+                                        }
+                                        else if(mode=='search_customer_types')
+                                        {
+                                            html_new_record+="<tr id='"+value.id+"'>"+type_td(value,'')+"</tr>";
+                                        }
+                                        else if(mode=='search_client')
+                                        {
+                                            html_new_record+="<tr id='"+value.cid+"'>"+client_td(value,'')+"</tr>";
+                                        }
+                                        else if(mode=='search_rate')
+                                        {
+                                            html_new_record+="<tr id='"+value.rid+"'>"+rate_td(value,'')+"</tr>";
+                                        }
+                                    }); 
+                                    if(mode=='search_customer')
+                                    {
+                                        var structure_table = $(".customer-records")
+                                    }
+                                    else if(mode=='search_customer_types')
+                                    {
+                                        var structure_table = $(".type-records")   
+                                    }
+                                    else if(mode=='search_client')
+                                    {
+                                        var structure_table = $(".client-records")   
+                                    }
+                                    else if(mode=='search_rate')
+                                    {
+                                        var structure_table = $(".rate-records")   
+                                    }
+                                    structure_table.find('tbody').html(html_new_record);
+                                    $('[data-toggle="popover"]').popover();
+                                    $('.load-more').hide();
+                                    $('.clear-search').removeClass('hidden').data('id',mode);
+                                    html_new_record = '';
+                                }
+                            }
+                        }
+
+                    },
+                    error:function(data)
+                    {
+                        
+                    },
+                    complete:function (data) 
+                    {
+                        _this.attr('disabled',false);
+                        $('.loading-holder').addClass("hidden");
+
+                    } 
+                });
+            }
+
+        });
+
+        $(document).on('click','.clear-search',function(e){
+            var _this = $(this),
+            mode = _this.data('id');
+            if(mode=='search_customer')
+            {
+                getCustomers(10,1,'html')
+            }
+            else if(mode=='search_customer_types')
+            {
+                getTypes(10,1,'html')
+            }
+            else if(mode=='search_client')
+            {
+                getClients(10,1,'html') 
+            }
+            else if(mode=='search_rate')
+            {
+                getRates(10,1,'html');
+            }
+            _this.addClass('hidden');
+            $('.query-input').val('');
+        });
+        
+        $(document).on('click','.maximize',function(e){     
+            remote.getCurrentWindow().maximize()
+        })
+        $(document).on('click','.minimize',function(e){     
+            remote.getCurrentWindow().minimize()
+        })
+        $(document).on('click','.logout',function(e){
+            window.location.href = "./index.html"
+        })
+        $(document).on('click','.homepage',function(e){
+            location.reload();
+        })
+
+        $(document).on("keypress", "form", function(event) { 
+            return event.keyCode != 13;
+        });
+
+        $(document).on('keyup','#cuid',function(e){
+            e.preventDefault();
+            var _this = $(this),
+            cutid = _this.val();
+            if(e.keyCode==13)
+            {
+                $.ajax({
+                    url: 'http://localhost/daily_times/ajax.php',
+                    type: "POST",
+                    data : { 'mode' : 'search_customer' , 'query' : cutid  } ,
+                    dataType: "JSON",
+                    beforeSend: function () {
+                        $('.loading-holder').removeClass("hidden");
+                    },
+                    success:function (data) 
+                    {
+                        if(data)
+                        {
+                            if(data.success)
+                            {
+                                if(data.results)
+                                {
+                                    $.each(data.results,function(index ,value) 
+                                    {
+                                        $('#cuname').val(value.name);
+                                    })
+                                }
+                            }
+                        }
+                        else
+                        {
+
+                        }
+                    },
+                    error:function(data)
+                    {
+                        $("#add_rate_btn").attr('disabled',false);
+                    },
+                    complete:function (data) 
+                    {
+                        $('.loading-holder').addClass("hidden");
+                    } 
+
+                });
+            }
+            // console.log(e.keyCode);
+        })
+        
+        $(document).on('keyup','#rate_code',function(e){
+            e.preventDefault();
+            var _this = $(this),
+            rid = _this.val();
+            if(e.keyCode==13)
+            {
+                $.ajax({
+                    url: 'http://localhost/daily_times/ajax.php',
+                    type: "POST",
+                    data : { 'mode' : 'search_rate' , 'query' : rid ,'limit' : 1 } ,
+                    dataType: "JSON",
+                    beforeSend: function () {
+                        $('.loading-holder').removeClass("hidden");
+                    },
+                    success:function (data) 
+                    {
+                        if(data)
+                        {
+                            if(data.success)
+                            {
+                                if(data.results)
+                                {
+                                    $.each(data.results,function(index ,value) 
+                                    {
+                                        // // console.log(value);
+                                        if(value.rid)
+                                        {
+                                            $('#position').val(value.position);
+                                            $('#rate').val(value.rate);
+                                            $('#extra_pct').val(value.extra);
+                                            $('#additional').val(value.add_pct);
+                                        }
+                                    })
+                                }
+                            }
+                        }
+                        else
+                        {
+
+                        }
+                    },
+                    error:function(data)
+                    {
+                        $("#add_rate_btn").attr('disabled',false);
+                    },
+                    complete:function (data) 
+                    {
+                        $('.loading-holder').addClass("hidden");
+                    } 
+
+                });
+            }
+            // console.log(e.keyCode);
+        })
+        
+
+        $(document).on('keyup','#clid',function(e){
+            e.preventDefault();
+            var _this = $(this),
+            clid = _this.val();
+            if(e.keyCode==13)
+            {
+                $.ajax({
+                    url: 'http://localhost/daily_times/ajax.php',
+                    type: "POST",
+                    data : { 'mode' : 'search_client' , 'query' : clid  } ,
+                    dataType: "JSON",
+                    beforeSend: function () {
+                        $('.loading-holder').removeClass("hidden");
+                    },
+                    success:function (data) 
+                    {
+                        if(data)
+                        {
+                            if(data.success)
+                            {
+                                if(data.results)
+                                {
+                                    $.each(data.results,function(index ,value) 
+                                    {
+                                        $('#clname').val(value.name);
+                                    })
+                                }
+                            }
+                        }
+                        else
+                        {
+
+                        }
+                    },
+                    error:function(data)
+                    {
+                        $("#add_rate_btn").attr('disabled',false);
+                    },
+                    complete:function (data) 
+                    {
+                        $('.loading-holder').addClass("hidden");
+                    } 
+
+                });
+            }
+            // console.log(e.keyCode);
+        })
+    });
+
+</script>

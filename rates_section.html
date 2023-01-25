@@ -1,0 +1,125 @@
+<div class="panel-box clearfix">
+	<h2>
+		Rates Managment Panel
+	</h2>
+</div>
+
+<div class="panel-box btn-panel clearfix">
+	<a href="javascript:void(0);" class="btn btn-primary" id="add_rate_">Add Rate</a>
+</div>
+<div class="panel-box form-panel hidden clearfix">
+    <div class="form-holder mar-bottom15 ">
+        <form id="add_rate_form" class="hidden">
+            <h3>Add/Edit Rate Form</h3>
+            <div class="col-lg-2">
+                <label for="code">
+                    Rate Code
+                </label>
+                <input type="text" class="form-control rate-input" id="code" name="code"  placeholder="code e.g CLCCBEI">
+            </div>
+            <div class="col-lg-2">
+                <label for="kind">
+                    Kind
+                </label>
+                <input type="text" class="form-control rate-input" id="kind" name="kind"  placeholder="kind e.g COM">
+            </div>
+            <div class="col-lg-3">
+                <label for="detail">
+                    Detail
+                </label>
+                <input type="text" class="form-control rate-input" id="detail" name="detail"  placeholder="e.g Classified-english-isd">
+            </div>
+            <div class="col-lg-2">
+                <label for="rate">
+                    Rate
+                </label>
+                <input type="number" class="form-control rate-input" id="rate" name="rate"  placeholder="e.g 1">
+            </div>
+            <div class="col-lg-2">
+                <label for="position">
+                    Position
+                </label>
+                <input type="text" class="form-control rate-input" id="position" name="position"  placeholder="e.g CL">
+            </div>
+            <div class="col-lg-2">
+                <label for="uom">
+                    UOM
+                </label>
+                <input type="text" class="form-control rate-input" id="uom" name="uom"  placeholder="e.g word">
+            </div>
+            <div class="col-lg-2">
+                <label for="add_pct">
+                    Add pct.
+                </label>
+                <input type="text" class="form-control rate-input" id="add_pct" name="add_pct"  placeholder="">
+            </div>
+            <div class="col-lg-2">
+                <label for="extra">
+                    Extra
+                </label>
+                <input type="text" class="form-control rate-input" id="extra" name="extra"  placeholder="">
+            </div>
+            <div class="col-lg-6">
+                <label for="description">
+                    Description
+                </label>
+                <input type="text" class="form-control rate-input" id="description" name="description"  placeholder="">
+            </div>
+            <div class="col-lg-4">
+                <button type="submit" id="add_rate_btn" class="btn btn-success mar-top30">Add Rate</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4 pull-right">
+        <div class="search-holder mar-bottom20">
+            <div class="input-group">
+                <input type="text" class="form-control query-input" data-id='search_rate' placeholder="Search for...">
+                <span class="input-group-btn">
+                    <button class="btn btn-default search-btn" data-id='search_rate' type="button">
+                        <i class="glyphicon glyphicon-search"></i>
+                    </button>
+                </span>
+            </div>
+            <a href="javascript:void(0)" class="clear-search hidden">Clear search</a>
+            <div class="suggestions-box hidden">
+                <ul>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel-box clearfix">
+    <h3>
+		Rate Details
+	</h3>
+	 <div class="table-responsive1 hidden rate-records">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID#</th>
+                    <th>Rate Code</th>
+                    <th>Kind</th>
+                    <th>Detail</th>
+                    <th>Rate</th>
+                    <th>Position</th>
+                    <th>UOM</th>
+                    <th>About</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <div align="center"><button class="btn btn-info load-more" data-identify="rates" data-page="2" data-limit="10" >Load More</button></div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        getRates(10,1);
+    });
+</script>

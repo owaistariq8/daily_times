@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Daily Times</title>
+        <script>window.$ = window.jQuery = require('./node_modules/jquery/dist/jquery.min.js');</script>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css" >
+        <link rel="stylesheet" href="./side_bar.css" >
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <form id="add_cust_form">
+                    <h3>Add Customer Form</h3>
+                    <!-- <div class="col-lg-4">
+                        <label for="cid">
+                            Customer ID
+                        </label>
+                        <input type="number" class="form-control" id="cid" name="cid"  placeholder="Customer id e.g 13212">
+                    </div> -->
+                    <div class="col-lg-4">
+                        <label for="cname">
+                            Customer Name
+                        </label>
+                        <input type="text" class="form-control" id="cname" name="cname"  placeholder="name e.g asad , malik">
+                    </div>
+                    <div class="col-lg-2">
+                        <label for="type">
+                            Type
+                        </label>
+                        <select class="form-control" name="type" id="type">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-4">
+                        <label for="address">
+                            Address
+                        </label>
+                        <input type="text" class="form-control" id="address" name="address"  placeholder="street1,lahore">
+                    </div>
+                    <div class="col-lg-4">
+                        <label for="city">
+                            City
+                        </label>
+                        <input type="text" class="form-control" id="city" name="city"  placeholder="Karachi ,lahore">
+                    </div>
+                    <div class="col-lg-4">
+                        <label for="exampleInputEmail1">
+                            Phone
+                        </label>
+                        <input type="text" class="form-control" id="phone" name="phone"  placeholder="31413356">
+                    </div>
+                    <div class="col-lg-4">
+                        <label for="exampleInputEmail1">
+                            Fax
+                        </label>
+                        <input type="number" class="form-control" id="fax" name="fax"  placeholder="31413356">
+                    </div>
+                    <div class="col-lg-4">
+                        <label for="exampleInputEmail1">
+                            Commission
+                        </label>
+                        <input type="number" class="form-control" id="comm" name="comm"  placeholder="number in percets">
+                    </div>
+                    <div class="col-lg-4">
+                        <label for="exampleInputEmail1">
+                            Contact
+                        </label>
+                        <input type="text" class="form-control" id="contact" name="contact"  placeholder="31413356">
+                    </div>
+                    <div class="col-lg-4">
+                        <label for="exampleInputEmail1">
+                            Credit Days
+                        </label>
+                        <input type="number" class="form-control" id="cdays" name="cdays"  placeholder="credit days in numbers">
+                    </div>
+                    <div class="col-lg-4">
+                        <label for="exampleInputEmail1">
+                            NTN
+                        </label>
+                        <input type="text" class="form-control" id="ntn" name="ntn"  placeholder="ntn e.g 12351512">
+                    </div>
+                    <br>
+                    <button type="submit" id="add_cust_btn" class="btn btn-primary form-control">Add Customer</button>
+                </form>
+            </div>
+            <div class="table-responsive hidden customer-records">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Customer#</th>
+                            <th>Customer Name</th>
+                            <th>Type</th>
+                            <th>City</th>
+                            <th>Phone</th>
+                            <th>Commission</th>
+                            <th>Fax</th>
+                            <th>About</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+
+    <script>
+        // You can also require other files to run in this process
+        require('./renderer.js')
+        $(document).ready(function(){
+            $.ajax({
+                url: 'http://localhost/daily_times/ajax.php',
+                type: "POST",
+                data : { "mode" : "get_customers","limit" : 10 } ,
+                dataType: "JSON",
+                beforeSend: function () {
+                    
+                },
+                success:function (data) 
+                {
+                    if(data)
+                    {
+                        if(data.success)
+                        {
+                            if(data.results)
+                            {
+                                var html_new_record='';
+                                $("#customer-records").removeClass("hidden");
+                                $.each(data.results,function(index,value){
+                                    html_new_record+= "<tr><td>"+value.cid+"</td><td>"+value.name+"</td><td>"+value.type+"</td><td>"+value.city+"</td><td>"+value.phone+"</td><td>"+value.comm+"</td><td>"+value.fax+"</td><td>"+'about'+"</td><td>"+'about'+"</td></tr>";
+                                }); 
+                                $(".customer-records").removeClass('hidden').find('tbody').append(html_new_record);
+
+                            }
+                            console.log(data)
+                            // window.location.href = './home.html';
+                        }
+                    }
+                },
+                error:function(data)
+                {
+                    $("#add_cust_btn").attr('disabled',false);
+                },
+                complete:function (data) 
+                {
+                  
+                } 
+            });
+            $(document).on("click",'#add_cust_btn',function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: 'http://localhost/daily_times/ajax.php',
+                    type: "POST",
+                    data : $('#add_cust_form').serialize()+"&mode=add_customer" ,
+                    dataType: "JSON",
+                    beforeSend: function () {
+                        $("#add_cust_btn").html("Please wait");
+                        $("#add_cust_btn").attr('disabled',true);
+                    },
+                    success:function (data) 
+                    {
+                        $("#add_cust_btn").html("Complete Sign Up");
+                        $("#add_cust_btn").attr('disabled',false);
+                        if(data)
+                        {
+                            if(data.success)
+                            {
+                                if(data.cid)
+                                {
+
+                                    var cname = $("#cname").val(),
+                                    type = $("#type").val(),
+                                    city = $("#city").val(),
+                                    phone = $("#phone").val(),
+                                    comm = $("#comm").val(),
+                                    fax = $("#fax").val(),
+                                    about = $("#fax").val(),
+                                    html_new_record = "<tr><td>"+data.cid+"</td><td>"+cname+"</td><td>"+type+"</td><td>"+city+"</td><td>"+phone+"</td><td>"+comm+"</td><td>"+fax+"</td><td>"+about+"</td><td>"+about+"</td></tr>";
+
+                                    $(".customer-records").removeClass('hidden').find('tbody').prepend(html_new_record);
+                                }
+                                console.log(data)
+                                // window.location.href = './home.html';
+                            }
+                        }
+                    },
+                    error:function(data)
+                    {
+                        $("#add_cust_btn").attr('disabled',false);
+                    },
+                    complete:function (data) 
+                    {
+                      
+                    } 
+
+                });
+            });
+        });
+    </script>
+</html>

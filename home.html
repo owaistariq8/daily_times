@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>:: Daily Times ::</title>
+		<!-- css -->
+		<link href="css/all.css" rel="stylesheet">
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
+	</head>
+	<body class="active">
+		<div id="wrapper" class="clearfix">
+			<div id="side_menu"></div>
+			<div class="content-wrapper clearfix">
+				<div class="loading-holder hidden">
+					<img src="images/5.gif" alt="">
+				</div>
+				<div class="alert  alert_messages hidden" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<div id="message">
+						<strong>Warning!</strong> Better check yourself, you're not looking too good.
+					</div>
+				</div>
+				<header id="header" class="clearfix">
+					<div class="menu-icon lines">
+						<a href="#">
+							<span></span>
+							<span class="line2"></span>
+							<span class="line3"></span>
+						</a>
+					</div>
+				</header><!-- header -->
+				<div class="content-holder clearfix">
+					<div class="panel-box clearfix">
+						<h2>
+							Welcome To Daily Times Management System 
+						</h2>
+						<p>This software will manage customer, client, bill, records, ledger and reporting for the accounts staff of daily time and help them to make everything easy for them in their office routine. </p>
+					</div>
+				</div><!-- content-holder -->
+				<div id="javascript"></div>
+				<footer id="footer" class"clearfix">
+					<p>© 2016 Daily Times. All Rights Reserved</p>
+				</footer>
+			</div><!-- container -->
+		</div>
+		<!-- jQuery files-->
+		 <script>window.$ = window.jQuery = require('./node_modules/jquery/dist/jquery.min.js');</script>
+	    <!-- <script src="js/jquery-1.11.1.min.js"></script> -->
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/accordion.js"></script>
+		<script src="./functions.js"></script>
+		<script type="text/javascript">
+			$( "#side_menu" ).load( "./side_menu.html .side-bar" );
+			$( "#javascript" ).load( "./js.html" );
+			$(document).ready(function(){
+				$(document).on("click",'#customer_mangement',function(e){
+					$( ".content-holder" ).html('');
+					$( ".content-holder" ).load( "./customers.html" );
+				  	
+				});
+				$(document).on("click",'#client_mangement',function(e){
+					$( ".content-holder" ).html('');
+					$( ".content-holder" ).load( "./clients.html" );
+				  	
+				});
+	           	
+	           	$(document).on("click",'#customer_types',function(e){
+					$( ".content-holder" ).html('');
+					$( ".content-holder" ).load( "./customer_type.html" );
+				  	
+				});
+
+				$(document).on("click",'#basic_configs',function(e){
+					$( ".content-holder" ).html('');
+					$( ".content-holder" ).load( "./basic_configs.html" );
+				  	
+				});
+
+				$(document).on("click",'#clearing_section',function(e){
+					$( ".content-holder" ).html('');
+					$( ".content-holder" ).load( "./clearing_section.html" );
+				  	
+				});
+
+				$(document).on("click",'#rates_section',function(e){
+					$( ".content-holder" ).html('');
+					$( ".content-holder" ).load( "./rates_section.html" );
+				  	
+				});
+
+				$(document).on("click",'#bill_manager',function(e){
+					$( ".content-holder" ).html('');
+					$( ".content-holder" ).load( "./bill_manager.html" );
+				  	
+				});
+
+				// open close menu
+				$(".menu-icon").click(function(){
+					$("body").toggleClass('active');
+					if($(".menu-icon").hasClass('lines')){
+						$(".menu-icon").removeClass('lines');
+						$(".menu-icon").addClass('cross');
+					}
+					else{
+						$(".menu-icon").removeClass('cross');
+						$(".menu-icon").addClass('lines');
+					}
+				});
+				// footer
+				function footer_bottom(){
+					var footer_height = $('#footer').outerHeight();
+					$('.content-wrapper').css("padding-bottom",footer_height+'px');
+				}
+				footer_bottom();
+				$(window).resize(function(){
+					footer_bottom();
+				});
+			});
+		</script>
+	</body>
+</html>

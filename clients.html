@@ -1,0 +1,120 @@
+<div class="panel-box clearfix">
+	<h2>
+		Client Manager Panel
+	</h2>
+</div>
+
+<div class="panel-box btn-panel clearfix">
+	<a href="javascript:void(0);" class="btn btn-primary" id="add_cli_">Add Client</a>
+</div>
+<div class="panel-box form-panel hidden clearfix">
+    <div class="form-holder mar-bottom15 ">
+        <form id="add_cli_form" class="hidden">
+            <h3>Add Client Form</h3>
+            <div class="col-lg-4">
+                <label for="cname">
+                    Client Name
+                </label>
+                <input type="text" class="form-control cli-input" id="cname" name="cname"  placeholder="name e.g asad , malik">
+            </div>
+            <div class="col-lg-2">
+                <label for="type">
+                    Type
+                </label>
+                <select class="form-control" name="type" id="type">
+                   
+                </select>
+            </div>
+            <div class="col-lg-2">
+                <label for="city">
+                    City
+                </label>
+                <input type="text" class="form-control cli-input" id="city" name="city"  placeholder="Karachi ,lahore">
+            </div>
+            <div class="col-lg-4">
+                <label for="phone">
+                    Phone
+                </label>
+                <input type="text" class="form-control cli-input" id="phone" name="phone"  placeholder="31413356">
+            </div>
+            <div class="col-lg-4">
+                <label for="fax">
+                    Fax
+                </label>
+                <input type="number" class="form-control cli-input" id="fax" name="fax"  placeholder="31413356">
+            </div>
+            <div class="col-lg-4">
+                <label for="contact">
+                    Contact
+                </label>
+                <input type="text" class="form-control cli-input" id="contact" name="contact"  placeholder="31413356">
+            </div>
+            <div class="col-lg-4">
+                <label for="address">
+                    Address
+                </label>
+                <input type="text" class="form-control cli-input" id="address" name="address"  placeholder="street1,lahore">
+            </div>
+           <!--  <div class="col-lg-4">
+                <label for="cust_id">
+                    Customer ID
+                </label>
+                <input type="number" class="form-control cli-input" id="cust_id" name="cust_id"  placeholder="Customer id e.g 13212">
+            </div> -->
+            <div class="col-lg-4">
+                <button type="submit" id="add_cli_btn" class="btn btn-success mar-top30">Add Client</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4 pull-right">
+        <div class="search-holder mar-bottom20">
+            <div class="input-group">
+                <input type="text" class="form-control query-input" data-id='search_client' placeholder="Search for...">
+                <span class="input-group-btn">
+                    <button class="btn btn-default search-btn" data-id='search_client' type="button">
+                        <i class="glyphicon glyphicon-search"></i>
+                    </button>
+                </span>
+            </div>
+            <a href="javascript:void(0)" class="clear-search hidden">Clear search</a>
+            <div class="suggestions-box hidden">
+                <ul>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel-box clearfix">
+    <h3>
+		Client Details
+	</h3>
+	 <div class="table-responsive1 hidden client-records">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID#</th>
+                    <th>Client Name</th>
+                    <th>Type</th>
+                    <th>City</th>
+                    <th>Phone</th>
+                    <th>Fax</th>
+                    <th>About</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <div align="center"><button class="btn btn-info load-more" data-identify="client" data-page="2" data-limit="10" >Load More</button></div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        getClients(10,1);
+    });
+</script>

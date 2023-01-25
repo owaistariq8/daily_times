@@ -1,0 +1,291 @@
+<div class="panel-box clearfix">
+	<h2>
+		Bill Managment Panel
+	</h2>
+</div>
+
+<div class="panel-box btn-panel clearfix">
+	<a href="javascript:void(0);" class="btn btn-primary" id="add_bill_">Add Bill</a>
+</div>
+<div class="panel-box form-panel  hidden clearfix">
+    <h3>Add/Edit Bill Form</h3>
+    <div class="row bill-info">
+        <div class="form-holder mar-bottom15 ">
+            <form id="bill_cut_cli">
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label for="bdate">
+                            Bill date
+                        </label>
+                        <input type="date" class="form-control bill-input" id="bdate" name="bdate">
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <label for="type">
+                            Type
+                        </label>
+                        <select class="form-control" name="type" id="type">
+                           
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <label for="site">
+                            Site
+                        </label>
+                        <select class="form-control" name="site" id="site">
+                           
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <label for="period">
+                            Period
+                        </label>
+                        <select class="form-control" name="period" id="period">
+                           
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label for="caption">
+                            Caption
+                        </label>
+                        <input type="text" class="form-control bill-input" id="caption" name="caption"  placeholder="ROYAL PALM">
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <label for="cuid">
+                            Customer ID
+                        </label>
+                        <input type="number" class="form-control bill-input" id="cuid" name="cuid"  placeholder="12341">
+                    </div>
+                </div>
+                <div class="col-lg-10">
+                    <div class="form-group">
+                        <label for="cuname">
+                            Customer Name
+                        </label>
+                        <input type="text" class="form-control bill-input" id="cuname" name="cuname"  placeholder="Asad">
+                    </div>
+                </div>
+                
+               
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <label for="clid">
+                            Client ID
+                        </label>
+                        <input type="number" class="form-control bill-input" id="clid" name="clid"  placeholder="123123">
+                    </div>
+                </div>
+                <div class="col-lg-10">
+                    <div class="form-group">
+                        <label for="clname">
+                            Client Name
+                        </label>
+                        <input type="text" class="form-control bill-input" id="clname" name="clname"  placeholder="MAC Husnain">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="form-holder mar-bottom15 ">
+        <h3>Bill Details</h3>
+        <table class="table table-bordered bill_details">
+            <tbody>
+                <form id="bill_detail_form" class="mar-top30">
+                    <tr>
+                        <td>
+                            <label for="bdate">
+                            Date
+                            </label>
+                            <input type="date" class="form-control bill-detail-input" id="bdate" name="bdate" >
+                        </td>
+                        <td>
+                            <label for="rate_code">
+                            Rate Code
+                            </label>
+                            <input type="text" class="form-control bill-detail-input" id="rate_code" name="rate_code"  placeholder="CLCCEBI">
+                        </td>
+                        <td>
+                            <label for="position">
+                            Position
+                            </label>
+                            <input type="text" class="form-control bill-detail-input" id="position" name="position"  placeholder="CL">
+                        </td>
+                        <td width="150px">
+                            <label for="">Size</label>
+                            <div class="input pull-left">
+                                <input type="number" class="form-control bill-detail-input" value="0" id="size_w" name="size_w"  placeholder="13">
+                            </div>
+                            <span class="staric">*</span>
+                            <div class="input pull-right">
+                                <input type="number" class="form-control bill-detail-input" value="0" id="size_h" name="size_h"  placeholder="13">
+                            </div>
+                        </td>
+                        <td>
+                            <label for="space">
+                                Space
+                            </label>
+                            <input type="number" class="form-control bill-detail-input" value="0" id="space" name="space"  placeholder="20">
+                        </td>
+                        <td>
+                            <label for="uom">
+                                UOM
+                            </label>
+                            <input type="text" class="form-control bill-detail-input" id="uom" name="uom"  placeholder="CCM">
+                        </td>
+                        <td>
+                            <label for="rate">
+                                Rate
+                            </label>
+                            <input type="number" class="form-control bill-detail-input" value="0" id="rate" name="rate"  placeholder="367">
+                        </td>
+                        <td>
+                            <label for="amount">
+                                Amount
+                            </label>
+                            <input type="number" class="form-control bill-detail-input" value="0" id="amount" name="amount"  placeholder="576">
+                        </td>
+                        <td>
+                            <label for="extra_pct">
+                                Extra %
+                            </label>
+                            <input type="number" class="form-control bill-detail-input" value="0" id="extra_pct" name="extra_pct"  placeholder="132">
+                        </td>
+                        <td>
+                            <label for="additional">
+                               Additional
+                            </label>
+                            <input type="number" class="form-control bill-detail-input" value="0" id="additional" name="additional"  placeholder="132">
+                        </td>
+                        <td>
+                            <button type="button" id="add_bill_btn" class="btn btn-primary mar-top20">Append Bill</button>
+                        </td>
+                    </tr>
+                </form>
+            </tbody>
+        </table>
+        <div class="table-responsive hidden bill-details">
+            <table class="table table-bordered bill_details_table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>RateCode</th>
+                        <th>Pos</th>
+                        <th>Size</th>
+                        <th>Size</th>
+                        <th>Space</th>
+                        <th>UOM</th>
+                        <th>Rate</th>
+                        <th>Amount</th>
+                        <th>Extra</th>
+                        <th>Addit</th>
+                        <th>R.O #</th>
+                        <th>R.O Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="hidden bill-details">
+            <div class="row total-area clearfix">
+                <div class="col-lg-8">
+                    <div class="mar-bottom20 clearfix">
+                        <h4>
+                            Total RS
+                            <button type="button" id="calculate-btn" class="btn btn-primary pull-right">Re Calculate</button>
+                        </h4>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-lg-2 pad-top7">
+                            <label for="">Comm %</label>
+                        </div>
+                        <div class="col-lg-10 ">
+                            <input type="number" value="0" class="form-control commision-input" id="commision" name="commision" >
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-lg-2 pad-top7">
+                            <label for="">Discount %</label>
+                        </div>
+                        <div class="col-lg-10">
+                            <input type="number" value="0" class="form-control discount-input" id="discount" name="discount" >
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <input type="number" class="form-control calculate-input" id="calculate" name="calculate" >
+                    </div>
+                    <div class="form-group">
+                        <input type="number" value="0" class="form-control commision-input" id="commision-rs" name="commision" >
+                    </div>
+                    <div class="form-group">
+                        <input type="number" value="0" class="form-control discount-input" id="discount-rs" name="discount" >
+                    </div>
+                </div>
+            </div>
+            <div class="row net-amount clearfix">
+                <div class="col-lg-8">
+                    <div class="mar-bottom20 clearfix">
+                        <h4 class="pad-top7">
+                            Net Amount
+                        </h4>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <input type="number" class="form-control net-input" id="net" name="net" >
+                    </div>
+                </div>
+            </div>
+            <div class=" row  mar-top30 pull-right col-lg-3 clearfix">
+                <button class="btn btn-primary" id="save-bill-data">Add Full Bill</button>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<div class="panel-box clearfix">
+	<h3>
+		Bill Details
+	</h3>
+    <div class="table-responsive1 hidden bill-records">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID#</th>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Customer Detail</th>
+                    <th>Client Detail</th>
+                    <th>Site</th>
+                    <th>Period</th>
+                    <th>Caption</th>
+                    <th>R.O #</th>
+                    <!-- <th>R.O Date</th> -->
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <div align="center"><button class="btn btn-info load-more" data-identify="bills" data-page="2" data-limit="10" >Load More</button></div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+	$(document).ready(function(){
+        getBills (10,1); 
+	});
+</script>

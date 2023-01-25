@@ -1,0 +1,43 @@
+<div class="panel-box clearfix">
+	<h2>
+		Basic Configuration Panel
+	</h2>
+
+</div>
+<div class="panel-box clearfix">
+    <form id="basic_configs_form" >
+        <div class="-lg-6">
+            <label for="sites">
+                Sites/Cities
+            </label>
+            <input type="text" class="form-control " id="sites" name="sites"  placeholder="name e.g Lahore,Islamabad ">Please enter comma seperated sites like Lahore,Karachi,Islamabad
+        </div>
+        <div class="-lg-4">
+            <label for="close_month">
+                Closing Month
+            </label>
+            <input type="month" class="form-control " id="close_month" name="close_month" >
+        </div>
+        <div class="-lg-2">
+            <label for="pagination">
+                Pagination Limit
+            </label>
+            <input type="number" class="form-control " id="pagination" name="pagination"  placeholder="e.g 1">
+        </div>
+        <div class="-lg-6">
+            <label for="payment_type">
+                Payment Type
+            </label>
+            <input type="text" class="form-control " id="payment_type" name="payment_type"  placeholder="e.g cash,barter">Please enter comma seperated Payment Type like cash,barter
+        </div>
+        <div class="col-lg-4">
+        	<button type="submit" id="submit_basic_configs" class="btn btn-success mar-top30">Submit Configuration</button>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+        getConfigs()
+	});
+</script>

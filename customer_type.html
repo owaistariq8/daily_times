@@ -1,0 +1,85 @@
+<div class="panel-box clearfix">
+	<h2>
+		Customer Type Panel
+	</h2>
+
+</div>
+<div class="panel-box btn-panel clearfix">
+	<a href="javascript:void(0);" class="btn btn-primary" id="add_type_">Add Customer Type</a>
+</div>
+<div class="panel-box form-panel hidden clearfix">
+    <div class="form-holder mar-bottom15 ">
+        <form id="add_type_form" class="hidden">
+            <h3>Add Customer Type Form</h3>
+            <div class="col-lg-2">
+                <label for="type">
+                    Type
+                </label>
+                <input type="text" class="form-control type-input" id="type" name="type"  placeholder="name e.g AA ">
+            </div>
+            <div class="col-lg-6">
+                <label for="description">
+                    Description
+                </label>
+                <input type="text" class="form-control type-input" id="description" name="description"  placeholder="ACCREDITED AGENCIES">
+            </div>
+            <div class="col-lg-3">
+                <label for="cdays">
+                    Credit Days
+                </label>
+                <input type="number" class="form-control type-input" id="cdays" name="cdays"  placeholder="eg 20">
+            </div>
+            <div class="col-lg-4">
+            	<button type="submit" id="add_type_btn" class="btn btn-success mar-top30">Add Customer</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4 pull-right">
+        <div class="search-holder mar-bottom20">
+            <div class="input-group">
+                <input type="text" class="form-control query-input" data-id='search_customer_types' placeholder="Search for...">
+                <span class="input-group-btn">
+                    <button class="btn btn-default search-btn" data-id='search_customer_types' type="button">
+                        <i class="glyphicon glyphicon-search"></i>
+                    </button>
+                </span>
+            </div>
+            <a href="javascript:void(0)" class="clear-search hidden">Clear search</a>
+            <div class="suggestions-box hidden">
+                <ul>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel-box clearfix">
+	<h3>
+		Type Details
+	</h3>
+	 <div class="table-responsive1 hidden type-records">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID#</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Credit Days</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <div align="center"><button class="btn btn-info load-more" data-identify="ctypes" data-page="2" data-limit="10" >Load More</button></div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+	$(document).ready(function(){
+        getTypes(10,1);
+	});
+</script>

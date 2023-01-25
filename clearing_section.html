@@ -1,0 +1,65 @@
+<div class="panel-box clearfix">
+	<h2>
+		Clearing Period & Month Section
+	</h2>
+
+</div>
+<div class="panel-box btn-panel clearfix">
+    <a href="javascript:void(0);" class="btn btn-primary" id="add_pre_">Add Period</a>
+</div>
+<div class="panel-box clearfix form-panel hidden">
+    <div class="form-holder mar-bottom15 ">
+        <h2>Add/Edit period form</h2>
+        <form id="clearing_period_form"  class="hidden">
+            <div class="col-lg-4">
+                <label for="pname">
+                    Period Name
+                </label>
+                <input type="text" class="form-control pre-input" id="pname" name="pname"  placeholder="name e.g Jan-Feb">
+            </div>
+            <div class="col-lg-4">
+                <label for="fdate">
+                    From Date
+                </label>
+                <input type="date" class="form-control pre-input" id="fdate" name="fdate"  >
+            </div>
+            <div class="col-lg-4">
+                <label for="tdate">
+                    To Date
+                </label>
+                <input type="date" class="form-control pre-input" id="tdate" name="tdate" >
+            </div>
+            <div class="col-lg-4">
+            	<button type="submit" id="submit_clearing_period" class="btn btn-success mar-top30">Submit Configuration</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="panel-box clearfix">
+    <h3>
+        Period Details
+    </h3>
+     <div class="table-responsive1 hidden period-records">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID#</th>
+                    <th>Period Name#</th>
+                    <th>From Date</th>
+                    <th>To Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <div align="center"><button class="btn btn-info load-more" data-identify="clearing_section" data-page="2" data-limit="10" >Load More</button></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+        getClearingSection(10,1);
+	});
+</script>
